@@ -72,5 +72,5 @@ position = Vector2(12138, 183)
 target_mode = 0
 
 [node name="FinishLine" parent="." instance=ExtResource("5_qxy0u")]
-position = Vector2(14264, 76)
+position = Vector2(14264, 161)
 level_complete_scene = ExtResource("6_excbq")
