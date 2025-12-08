@@ -1,8 +1,12 @@
 extends CanvasLayer
 
 func set_stats(percentage: int):
+	# 1. Update the Text
 	$Control/VBoxContainer/ProgressLabel.text = "Progress: %d%%" % percentage
-	# $Control/VBoxContainer/ProgressBar.value = percentage # Uncomment if you added a ProgressBar
+	
+	# 2. Update the Bar (Value should be 0-100)
+	# Make sure your ProgressBar node is inside the VBoxContainer and named "ProgressBar"
+	$Control/VBoxContainer/ProgressBar.value = percentage
 	
 	if GameManager:
 		$Control/VBoxContainer/AttemptsLabel.text = "Total Attempts: %d" % GameManager.attempts
@@ -13,10 +17,10 @@ func _ready():
 
 func _on_retry():
 	get_tree().paused = false
-	queue_free() # <--- IMPORTANT: Remove this screen before reloading!
+	queue_free()
 	get_tree().reload_current_scene()
 
 func _on_menu():
 	get_tree().paused = false
-	queue_free() # <--- IMPORTANT: Remove this screen before leaving!
+	queue_free()
 	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
