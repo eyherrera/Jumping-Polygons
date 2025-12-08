@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dl3nco57s8jvr"]
+
+[ext_resource type="Script" uid="uid://gas0f3uujcvw" path="res://scripts/gamemode_portal.gd" id="1_3vppv"]
+[ext_resource type="Texture2D" uid="uid://brrqftcvq14e2" path="res://icon.svg" id="2_qpb7f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nwppe"]
+size = Vector2(16, 32)
+
+[node name="GamemodePortal" type="Area2D"]
+script = ExtResource("1_3vppv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_nwppe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.5000001, 9.536743e-07)
+scale = Vector2(0.1171875, 0.25)
+texture = ExtResource("2_qpb7f")

@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://i4tvhkaf1oik"]
+[gd_scene load_steps=5 format=3 uid="uid://i4tvhkaf1oik"]
 
 [ext_resource type="Texture2D" uid="uid://brrqftcvq14e2" path="res://icon.svg" id="1_rp718"]
 [ext_resource type="Script" uid="uid://cgtyooe8k0tx2" path="res://scripts/player.gd" id="1_yewv4"]
-[ext_resource type="Script" uid="uid://bplmso3l36820" path="res://scenes/characters/game_camera.gd.gd" id="3_76oj4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yewv4"]
 size = Vector2(16, 16)
@@ -10,7 +9,7 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rp718"]
 size = Vector2(4, 4)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_yewv4")
 
@@ -29,13 +28,5 @@ collision_mask = 5
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HazardDetector"]
 shape = SubResource("RectangleShape2D_rp718")
 debug_color = Color(0.99999994, 0.01637035, 0.021757409, 0.41960785)
-
-[node name="Camera2D" type="Camera2D" parent="."]
-top_level = true
-offset = Vector2(80, 0)
-zoom = Vector2(4, 4)
-position_smoothing_speed = 10.0
-script = ExtResource("3_76oj4")
-offset_x = 0.0
 
 [connection signal="body_entered" from="HazardDetector" to="." method="_on_hazard_detector_body_entered"]
