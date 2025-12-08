@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nure0"]
 size = Vector2(20, 344)
 
-[node name="FinishLine" type="Area2D"]
+[node name="FinishLine" type="Area2D" groups=["FinishLine"]]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_nure0")

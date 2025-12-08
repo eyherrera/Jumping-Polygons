@@ -10,6 +10,7 @@ extends CharacterBody2D
 @onready var sprite = $Sprite2D
 @onready var ray_left = $FloorDetectors/RayLeft
 @onready var ray_right = $FloorDetectors/RayRight
+@export var game_over_scene: PackedScene = preload("res://scenes/ui/game_over_layer.tscn")
 
 var is_grounded = false
 
@@ -84,8 +85,41 @@ func _handle_rotation(delta):
 # -- DEATH LOGIC --
 func die():
 	print("Dead!")
-	GameManager.add_attempt()
-	get_tree().reload_current_scene()
+	
+	# 1. Update Global Counter
+	if GameManager:
+		GameManager.add_attempt()
+	
+	# 2. Stop Music
+	# We assume the AudioStreamPlayer is a sibling named "AudioStreamPlayer" in the level
+	var music = get_parent().get_node_or_null("AudioStreamPlayer")
+	if music:
+		music.stop()
+
+	# 3. Calculate Progress
+	var percent = 0
+	var finish_node = get_tree().get_first_node_in_group("FinishLine")
+	
+	if finish_node:
+		var start_x = 0.0 # Assuming level starts at 0
+		var end_x = finish_node.global_position.x
+		var current_x = global_position.x
+		
+		if end_x > 0:
+			percent = int((current_x / end_x) * 100)
+			percent = clamp(percent, 0, 99) # Cap at 99% if we died
+	
+	# 4. Show Game Over Screen
+	if game_over_scene:
+		var go_screen = game_over_scene.instantiate()
+		get_tree().root.add_child(go_screen)
+		go_screen.set_stats(percent)
+		
+		# 5. Pause Game
+		get_tree().paused = true
+	else:
+		# Fallback if no screen assigned
+		get_tree().reload_current_scene()
 
 func _on_hazard_detector_body_entered(body: Node2D) -> void:
 	die()
