@@ -6,15 +6,24 @@ extends CharacterBody2D
 @export var ship_gravity: float = 1000.0 
 @export var max_fall_speed: float = 600.0
 @export var max_rise_speed: float = 600.0
-@export var rotation_sensitivity: float = 0.05
+@export var rotation_sensitivity: float = 0.10
 
 func _ready():
-	# Ensure the HazardDetector scans for Walls (1) and Spikes (4) -> Value 5
-	# Connect the signal if you didn't do it in the editor
-	var detector = $HazardDetector
-	detector.collision_mask = 5 
-	if not detector.body_entered.is_connected(_on_hazard_detector_body_entered):
-		detector.body_entered.connect(_on_hazard_detector_body_entered)
+	# 1. Setup Wall Detector (Small Box -> World Layer)
+	# It allows grazing floors/ceilings but kills on deep wall impacts.
+	var wall_detector = $WallDetector
+	if wall_detector:
+		wall_detector.body_entered.connect(_on_hazard_entered)
+	else:
+		printerr("Ship missing 'WallDetector' child node!")
+
+	# 2. Setup Spike Detector (Big Box -> Deadly Layer)
+	# It kills immediately if ANY part of the ship touches a spike.
+	var spike_detector = $SpikeDetector
+	if spike_detector:
+		spike_detector.body_entered.connect(_on_hazard_entered)
+	else:
+		printerr("Ship missing 'SpikeDetector' child node!")
 
 func _physics_process(delta):
 	# 1. Constant Forward Movement
@@ -30,6 +39,7 @@ func _physics_process(delta):
 	velocity.y = clamp(velocity.y, -max_rise_speed, max_fall_speed)
 	
 	# 4. Move
+	# The Main CollisionShape (Big) handles sliding on floors/ceilings here.
 	move_and_slide()
 	
 	# 5. Visual Flair
@@ -40,6 +50,6 @@ func die():
 	print("Ship Crashed!")
 	get_tree().reload_current_scene()
 
-func _on_hazard_detector_body_entered(_body):
-	# If we hit anything in the 'deadly' mask (Walls or Spikes), we die.
+func _on_hazard_entered(_body):
+	# This triggers if Small Box hits a Wall OR Big Box hits a Spike
 	die()

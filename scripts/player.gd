@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 # -- SETTINGS --
 @export var speed = 200.0           # Constant forward speed
-@export var jump_force = -350.0     # Negative y is "up" in Godot
+@export var jump_force = -360.0     # Negative y is "up" in Godot
 @export var gravity = 2000.0        # High gravity feels snappier for this genre
 @export var rotation_speed = 6.0    # Visual rotation speed (in air)
 @export var snap_speed = 20.0       # How fast it aligns to 90 degrees on land

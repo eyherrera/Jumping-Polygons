@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dmjxcyyty2ien"]
+[gd_scene load_steps=6 format=3 uid="uid://dmjxcyyty2ien"]
 
 [ext_resource type="Script" uid="uid://dwfb73q878g52" path="res://scripts/ship_player.gd" id="1_ws152"]
 [ext_resource type="Texture2D" uid="uid://brrqftcvq14e2" path="res://icon.svg" id="2_udxwp"]
@@ -8,6 +8,9 @@ size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_udxwp"]
 size = Vector2(4, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bvhv2"]
+size = Vector2(16, 16)
 
 [node name="ShipPlayer" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
@@ -21,9 +24,17 @@ texture = ExtResource("2_udxwp")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_qmq7w")
 
-[node name="HazardDetector" type="Area2D" parent="."]
-collision_layer = 32
-collision_mask = 5
+[node name="WallDetector" type="Area2D" parent="."]
+collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallDetector"]
 shape = SubResource("RectangleShape2D_udxwp")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="SpikeDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpikeDetector"]
+shape = SubResource("RectangleShape2D_bvhv2")
+debug_color = Color(0, 0.6473138, 0.22271982, 0.41960785)

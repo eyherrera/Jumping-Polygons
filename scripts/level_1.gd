@@ -5,6 +5,9 @@ extends Node2D
 @export var ship_scene: PackedScene
 @export var camera: Camera2D 
 
+# -- SETTINGS --
+@export var smoothing_speed: float = 5.0
+
 # Store the current player instance
 var current_player: Node2D
 
@@ -14,56 +17,47 @@ func _ready():
 	
 	if current_player:
 		print("LEVEL MANAGER: Found initial player: ", current_player.name)
-	else:
-		printerr("LEVEL MANAGER CRITICAL ERROR: Could not find node named 'Player' in the scene tree!")
-
-	# Important: The Camera should NOT be inside the player
-	if camera and current_player:
-		camera.position = current_player.position
+	
+	# -- CAMERA SETUP --
+	if camera:
+		if current_player:
+			# Teleport camera to player immediately (so we don't drift from 0,0 at start)
+			camera.position = current_player.position
+		
+		# Enable smoothing via code so you don't have to hunt for it in Inspector
+		camera.position_smoothing_enabled = true
+		camera.position_smoothing_speed = smoothing_speed
 
 func _process(delta):
-	# Make the camera follow the current player manually
+	# Follow the player on BOTH axes now
 	if current_player and camera:
-		camera.position.x = current_player.position.x
+		camera.position = current_player.position
 
 # -- THE SWAPPING LOGIC --
 func change_gamemode(new_mode: int, spawn_pos: Vector2):
 	print("\n--- PORTAL TRIGGERED ---")
-	print("Requesting Mode: ", new_mode, " (0 = Cube, 1 = Ship)")
 	
 	if not current_player:
-		printerr("ERROR: current_player variable is null! Cannot swap.")
 		return
 
-	print("Current Player Name is: '", current_player.name, "'")
-
-	# Logic check
+	# Logic check to prevent redundant swaps
 	var is_currently_ship = "Ship" in current_player.name
-	print("Is currently Ship? ", is_currently_ship)
 
 	# 0 = CUBE
 	if new_mode == 0:
 		if is_currently_ship:
-			print("Match found! Swapping to CUBE scene...")
 			_perform_swap(cube_scene, spawn_pos)
-		else:
-			print("Ignored: Requested Cube, but we are NOT a Ship (already Cube?).")
 		
 	# 1 = SHIP
 	elif new_mode == 1:
 		if not is_currently_ship:
-			print("Match found! Swapping to SHIP scene...")
 			_perform_swap(ship_scene, spawn_pos)
-		else:
-			print("Ignored: Requested Ship, but we ARE already a Ship.")
 
 func _perform_swap(new_scene: PackedScene, spawn_pos: Vector2):
 	if not new_scene:
-		printerr("CRITICAL ERROR: The 'cube_scene' or 'ship_scene' slot is EMPTY in the Inspector!")
+		printerr("CRITICAL ERROR: Assign scenes in the Inspector!")
 		return
 
-	print("Spawning new body...")
-	
 	# 1. Remove the old player
 	current_player.queue_free()
 	
@@ -75,7 +69,6 @@ func _perform_swap(new_scene: PackedScene, spawn_pos: Vector2):
 	# 3. Add to the scene
 	call_deferred("add_child", new_body)
 	
-	# 4. Update reference immediately (so camera doesn't break next frame)
+	# 4. Update reference
 	current_player = new_body
-	
-	print("Swap SUCCESS! New player created.")
+	print("Swapped Player Model!")

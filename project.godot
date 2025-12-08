@@ -36,6 +36,10 @@ jump={
 2d_physics/layer_5="interactables"
 2d_physics/layer_6="none"
 
+[physics]
+
+common/physics_interpolation=true
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
