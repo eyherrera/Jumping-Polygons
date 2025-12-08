@@ -1,3 +1,17 @@
-# Godot 4+ specific ignores
+# Godot-specific ignores
+.godot/
+.import/
+export_presets.cfg
+
+# Mono/C# ignores (if you ever switch to .NET version)
+.mono/
+*.a
+*.lib
+*.dll
+*.so
+*.dylib# Godot 4+ specific ignores
 .godot/
 /android/
+
+# Ignore all raw assets
+assets/
