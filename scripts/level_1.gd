@@ -12,6 +12,7 @@ extends Node2D
 var current_player: Node2D
 
 func _ready():
+	#Engine.time_scale = 0.5  # Slow motion at 50%
 	# Find the starting player in the scene
 	current_player = $Player
 	

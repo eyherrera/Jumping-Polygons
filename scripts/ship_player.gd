@@ -8,20 +8,28 @@ extends CharacterBody2D
 @export var max_rise_speed: float = 600.0
 @export var rotation_sensitivity: float = 0.10
 
+# Reference the Sprite to rotate it independently of the physics box
+# This prevents the hitbox from tilting and snagging on ceilings
+@onready var sprite = $Sprite2D
+@onready var wall_detector = $WallDetector
+@onready var spike_detector = $SpikeDetector
+
 func _ready():
 	# 1. Setup Wall Detector (Small Box -> World Layer)
-	# It allows grazing floors/ceilings but kills on deep wall impacts.
-	var wall_detector = $WallDetector
+	# Only triggers death if the ship crashes DEEP into a wall (past the main collider)
 	if wall_detector:
 		wall_detector.body_entered.connect(_on_hazard_entered)
+		# Ensure it specifically detects World (Layer 1)
+		wall_detector.collision_mask = 1 
 	else:
 		printerr("Ship missing 'WallDetector' child node!")
 
 	# 2. Setup Spike Detector (Big Box -> Deadly Layer)
-	# It kills immediately if ANY part of the ship touches a spike.
-	var spike_detector = $SpikeDetector
+	# Kills immediately if touching a spike (Layer 3/Value 4)
 	if spike_detector:
 		spike_detector.body_entered.connect(_on_hazard_entered)
+		# Ensure it specifically detects Deadly (Layer 3 - usually bit value 4)
+		spike_detector.collision_mask = 4 
 	else:
 		printerr("Ship missing 'SpikeDetector' child node!")
 
@@ -39,11 +47,15 @@ func _physics_process(delta):
 	velocity.y = clamp(velocity.y, -max_rise_speed, max_fall_speed)
 	
 	# 4. Move
-	# The Main CollisionShape (Big) handles sliding on floors/ceilings here.
+	# The Main CollisionShape (16x16) handles sliding on floors/ceilings.
+	# Because we are NOT rotating the body, it will slide smoothly.
 	move_and_slide()
 	
-	# 5. Visual Flair
-	rotation = lerp_angle(rotation, velocity.y * rotation_sensitivity * delta, 10 * delta)
+	# 5. Visual Flair - Rotate ONLY the sprite
+	# We use the sprite's rotation property, keeping the physics box flat.
+	if sprite:
+		var target_rotation = velocity.y * rotation_sensitivity * delta
+		sprite.rotation = lerp_angle(sprite.rotation, target_rotation, 10 * delta)
 
 # -- DEATH LOGIC --
 func die():
@@ -51,5 +63,5 @@ func die():
 	get_tree().reload_current_scene()
 
 func _on_hazard_entered(_body):
-	# This triggers if Small Box hits a Wall OR Big Box hits a Spike
+	# This triggers if WallDetector hits a Wall OR SpikeDetector hits a Spike
 	die()
