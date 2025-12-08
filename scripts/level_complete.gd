@@ -4,7 +4,6 @@ extends CanvasLayer
 const MAIN_MENU_PATH = "res://scenes/ui/main_menu.tscn"
 
 func _ready():
-	# Update attempt text (We will implement the global counter next)
 	if GameManager:
 		$Control/VBoxContainer/AttemptsLabel.text = "Attempts: %d" % GameManager.attempts
 	
@@ -12,9 +11,11 @@ func _ready():
 	$Control/VBoxContainer/MenuBtn.pressed.connect(_on_menu_pressed)
 
 func _on_retry_pressed():
-	get_tree().paused = false # Unpause before reloading!
+	get_tree().paused = false 
+	queue_free() # Remove this UI instance immediately
 	get_tree().reload_current_scene()
 
 func _on_menu_pressed():
-	get_tree().paused = false # Unpause!
+	get_tree().paused = false 
+	queue_free() # Remove this UI instance immediately
 	get_tree().change_scene_to_file(MAIN_MENU_PATH)
