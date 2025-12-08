@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Jumping Polygons"
-run/main_scene="uid://i4tvhkaf1oik"
+run/main_scene="uid://bg88tcv2qq4nk"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
