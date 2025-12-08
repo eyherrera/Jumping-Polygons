@@ -6,33 +6,46 @@ extends CharacterBody2D
 @export var gravity = 2000.0
 @export var rotation_speed = 6.0
 @export var snap_speed = 20.0
+@export var game_over_scene: PackedScene = preload("res://scenes/ui/game_over_layer.tscn")
 
 @onready var sprite = $Sprite2D
 @onready var ray_left = $FloorDetectors/RayLeft
 @onready var ray_right = $FloorDetectors/RayRight
-@export var game_over_scene: PackedScene = preload("res://scenes/ui/game_over_layer.tscn")
+@onready var hazard_detector = $HazardDetector
+@onready var spike_detector = $SpikeDetector
 
 var is_grounded = false
 
 func _ready():
-	# Ensure HazardDetector works (Layer 1=World, Layer 3=Deadly)
-	$HazardDetector.collision_mask = 5
-	# Ensure rays ignore the player's own collider
+	# 1. HazardDetector (Walls Only)
+	# Mask 1 = World. We REMOVE Layer 3 (Spikes) from this detector.
+	if hazard_detector:
+		hazard_detector.collision_mask = 1 
+		# Ensure signal is connected (if not done in editor)
+		if not hazard_detector.body_entered.is_connected(_on_hazard_entered):
+			hazard_detector.body_entered.connect(_on_hazard_entered)
+
+	# 2. SpikeDetector (Spikes Only)
+	# Mask 4 = Layer 3 (Deadly).
+	if spike_detector:
+		spike_detector.collision_mask = 4
+		spike_detector.body_entered.connect(_on_hazard_entered)
+	else:
+		printerr("Player missing 'SpikeDetector' child node!")
+
+	# 3. RayCast Exceptions
 	ray_left.add_exception(self)
 	ray_right.add_exception(self)
 
 func _physics_process(delta):
-	# 1. Apply Gravity first
+	# 1. Apply Gravity
 	velocity.y += gravity * delta
 	
-	# 2. Dynamic Floor Check
-	# We predict how far we will fall this frame.
-	# We add a small 'margin' (e.g. 5 pixels) to ensure we detect the floor just before we hit it.
+	# 2. Dynamic Floor Check (The "Makeshift" Logic)
 	var current_fall_speed = velocity.y
 	var distance_to_fall = current_fall_speed * delta
-	var ray_length = max(10.0, distance_to_fall + 5.0) # Never shorter than 10px
+	var ray_length = max(10.0, distance_to_fall + 5.0)
 	
-	# Update RayCasts to look exactly that far ahead
 	ray_left.target_position = Vector2(0, ray_length)
 	ray_right.target_position = Vector2(0, ray_length)
 	ray_left.force_raycast_update()
@@ -40,7 +53,6 @@ func _physics_process(delta):
 	
 	is_grounded = false
 	
-	# Only bother checking floor if we are actually falling
 	if velocity.y > 0:
 		var collision_point = null
 		
@@ -50,13 +62,7 @@ func _physics_process(delta):
 			collision_point = ray_right.get_collision_point()
 			
 		if collision_point:
-			# Visual smoothing:
-			# Only snap if we are actually close to the ground (within falling distance)
-			# This prevents snapping to a block 50px below you if you just jumped over it.
 			var distance_from_feet = collision_point.y - global_position.y
-			
-			# (Adjust '8' to half your sprite height)
-			# We check if the floor is within the distance we tried to cover this frame
 			if distance_from_feet <= (8 + ray_length):
 				global_position.y = collision_point.y - 8
 				velocity.y = 0
@@ -67,11 +73,11 @@ func _physics_process(delta):
 		velocity.y = jump_force
 		is_grounded = false
 
-	# 4. Manual Movement
+	# 4. Move
 	velocity.x = speed
 	move_and_slide() 
 
-	# 5. Visual Rotation
+	# 5. Rotation
 	_handle_rotation(delta)
 
 func _handle_rotation(delta):
@@ -83,43 +89,33 @@ func _handle_rotation(delta):
 		sprite.rotation = lerp(sprite.rotation, target_rotation, snap_speed * delta)
 
 # -- DEATH LOGIC --
+# Both detectors connect here
+func _on_hazard_entered(_body):
+	die()
+
 func die():
 	print("Dead!")
-	
-	# 1. Update Global Counter
 	if GameManager:
 		GameManager.add_attempt()
 	
-	# 2. Stop Music
-	# We assume the AudioStreamPlayer is a sibling named "AudioStreamPlayer" in the level
 	var music = get_parent().get_node_or_null("AudioStreamPlayer")
 	if music:
 		music.stop()
 
-	# 3. Calculate Progress
+	# Progress Calculation
 	var percent = 0
 	var finish_node = get_tree().get_first_node_in_group("FinishLine")
-	
 	if finish_node:
-		var start_x = 0.0 # Assuming level starts at 0
 		var end_x = finish_node.global_position.x
-		var current_x = global_position.x
-		
 		if end_x > 0:
-			percent = int((current_x / end_x) * 100)
-			percent = clamp(percent, 0, 99) # Cap at 99% if we died
+			percent = int((global_position.x / end_x) * 100)
+			percent = clamp(percent, 0, 99)
 	
-	# 4. Show Game Over Screen
+	# Show Game Over
 	if game_over_scene:
 		var go_screen = game_over_scene.instantiate()
 		get_tree().root.add_child(go_screen)
 		go_screen.set_stats(percent)
-		
-		# 5. Pause Game
 		get_tree().paused = true
 	else:
-		# Fallback if no screen assigned
 		get_tree().reload_current_scene()
-
-func _on_hazard_detector_body_entered(body: Node2D) -> void:
-	die()
