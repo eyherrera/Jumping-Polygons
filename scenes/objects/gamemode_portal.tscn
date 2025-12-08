@@ -7,6 +7,8 @@
 size = Vector2(16, 32)
 
 [node name="GamemodePortal" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("1_3vppv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

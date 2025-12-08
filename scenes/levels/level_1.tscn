@@ -49,4 +49,3 @@ zoom = Vector2(3, 3)
 
 [node name="GamemodePortal" parent="." instance=ExtResource("8_s8va5")]
 position = Vector2(535, 223)
-target_mode = 0
