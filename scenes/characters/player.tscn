@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://i4tvhkaf1oik"]
+
+[ext_resource type="Texture2D" uid="uid://brrqftcvq14e2" path="res://icon.svg" id="1_rp718"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yewv4"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rp718"]
+size = Vector2(4, 4)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.12499999, 0.12499999)
+texture = ExtResource("1_rp718")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_yewv4")
+
+[node name="HazardDetector" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardDetector"]
+shape = SubResource("RectangleShape2D_rp718")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(100, 0)
+position_smoothing_enabled = true
