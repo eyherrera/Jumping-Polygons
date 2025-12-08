@@ -60,6 +60,7 @@ func _physics_process(delta):
 # -- DEATH LOGIC --
 func die():
 	print("Ship Crashed!")
+	GameManager.add_attempt()
 	get_tree().reload_current_scene()
 
 func _on_hazard_entered(_body):

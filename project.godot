@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Jumping Polygons"
-run/main_scene="uid://bg88tcv2qq4nk"
+run/main_scene="uid://bm5pr86kew125"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameManager="*res://scripts/global/game_manager.gd"
 
 [display]
 
