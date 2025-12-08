@@ -84,6 +84,7 @@ func _handle_rotation(delta):
 # -- DEATH LOGIC --
 func die():
 	print("Dead!")
+	GameManager.add_attempt()
 	get_tree().reload_current_scene()
 
 func _on_hazard_detector_body_entered(body: Node2D) -> void:
