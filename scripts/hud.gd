@@ -47,19 +47,21 @@ func _process(_delta):
 			progress_bar.value = percent
 
 func _on_pause_pressed():
-	# 1. Pause the Tree
 	get_tree().paused = true
 	
-	# 2. Manually Pause the Music
-	# We find the AudioStreamPlayer in the level (parent of HUD)
 	var music = get_parent().get_node_or_null("AudioStreamPlayer")
 	if music:
 		music.stream_paused = true
 	
-	# 3. Hide HUD
 	visible = false 
 	
-	# 4. Spawn Pause Menu
 	if pause_menu_scene:
 		var pause_menu = pause_menu_scene.instantiate()
 		get_tree().root.add_child(pause_menu)
+		
+		# --- NEW: PASS THE DATA ---
+		# Since the HUD's bar is updated every frame in _process, 
+		# we can just grab its current value right now!
+		if pause_menu.has_method("set_stats"):
+			pause_menu.set_stats(int(progress_bar.value))
+		# --------------------------

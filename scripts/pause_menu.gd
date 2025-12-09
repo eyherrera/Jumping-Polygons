@@ -49,3 +49,16 @@ func _on_menu_pressed():
 	
 	# NOTE: We DO NOT call get_tree().paused = false here!
 	# The TransitionLayer will do it at the perfect moment.
+
+func set_stats(percentage: int):
+	# Update the label
+	if has_node("Control/VBoxContainer/ProgressLabel"):
+		$Control/VBoxContainer/ProgressLabel.text = "Progress: %d%%" % percentage
+	
+	# Update the bar
+	if has_node("Control/VBoxContainer/ProgressBar"):
+		$Control/VBoxContainer/ProgressBar.value = percentage
+	
+	# Update attempts (optional)
+	if has_node("Control/VBoxContainer/AttemptsLabel") and GameManager:
+		$Control/VBoxContainer/AttemptsLabel.text = "Total Attempts: %d" % GameManager.attempts
