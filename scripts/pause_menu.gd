@@ -1,64 +1,77 @@
 extends CanvasLayer
 
+## Manages the in-game Pause Menu.
+## Handles resuming the game, quitting to the menu, and displaying current progress.
+
+# -- CONSTANTS --
+const MAIN_MENU_PATH = "res://scenes/ui/main_menu.tscn"
+
+# -- LIFECYCLE --
+
 func _ready():
-	# If your buttons are named the same as Game Over, this works.
-	# If you renamed them (e.g. "ResumeBtn"), update the paths below.
-	
-	# "Retry" button -> RESUME Game
-	if has_node("Control/VBoxContainer/HBoxContainer/RetryBtn"):
-		$Control/VBoxContainer/HBoxContainer/RetryBtn.text = "Resume"
-		$Control/VBoxContainer/HBoxContainer/RetryBtn.pressed.connect(_on_resume_pressed)
-	
-	# "Menu" button -> QUIT to Menu
-	if has_node("Control/VBoxContainer/HBoxContainer/MenuBtn"):
-		$Control/VBoxContainer/HBoxContainer/MenuBtn.pressed.connect(_on_menu_pressed)
-	
+	_setup_buttons()
 	AudioManager.register_buttons(self)
 
+# -- PRIVATE METHODS --
+
+func _setup_buttons():
+	# Check for "Retry" button (repurposed here as "Resume")
+	if has_node("Control/VBoxContainer/HBoxContainer/RetryBtn"):
+		var resume_btn = $Control/VBoxContainer/HBoxContainer/RetryBtn
+		resume_btn.text = "Resume"
+		resume_btn.pressed.connect(_on_resume_pressed)
+	
+	# Check for "Menu" button
+	if has_node("Control/VBoxContainer/HBoxContainer/MenuBtn"):
+		$Control/VBoxContainer/HBoxContainer/MenuBtn.pressed.connect(_on_menu_pressed)
+
+# -- PUBLIC METHODS --
+
+## Populates the pause screen with current level stats.
+## Safe to call even if some UI elements are missing from the scene.
+func set_stats(percentage: int):
+	# Update Progress Label
+	if has_node("Control/VBoxContainer/ProgressLabel"):
+		$Control/VBoxContainer/ProgressLabel.text = "Progress: %d%%" % percentage
+	
+	# Update Progress Bar
+	if has_node("Control/VBoxContainer/ProgressBar"):
+		$Control/VBoxContainer/ProgressBar.value = percentage
+	
+	# Update Attempts Label
+	if has_node("Control/VBoxContainer/AttemptsLabel") and GameManager:
+		$Control/VBoxContainer/AttemptsLabel.text = "Total Attempts: %d" % GameManager.attempts
+
+# -- SIGNAL CALLBACKS --
+
 func _on_resume_pressed():
-	# 1. Unpause the Tree
+	# 1. Unpause the game logic
 	get_tree().paused = false
 	
-	# 2. Manually Resume the Music
-	# We search the current scene for the player to find the music sibling
-	# (Since PauseMenu is in 'root', we can't use get_parent())
+	# 2. Manually resume the level music
+	# We search the current scene root since the PauseMenu is a child of root, not the level.
 	var current_scene = get_tree().current_scene
 	var music = current_scene.get_node_or_null("AudioStreamPlayer")
 	if music:
 		music.stream_paused = false
 	
-	# 3. Show HUD again
+	# 3. Restore the HUD
 	var hud = get_tree().get_first_node_in_group("HUD")
 	if hud:
 		hud.visible = true
 	else:
-		# Fallback: If group fails, look for it in the scene directly
+		# Fallback: Look for HUD by name if the group isn't assigned
 		hud = current_scene.get_node_or_null("HUD")
-		if hud: hud.visible = true
+		if hud: 
+			hud.visible = true
 		
-	# 4. Remove Pause Screen
+	# 4. Close this menu
 	queue_free()
 
 func _on_menu_pressed():
-	# 1. Remove the Pause Menu UI immediately (so it doesn't block the transition)
+	# Remove the menu immediately to clear the screen for the fade-out
 	queue_free()
 	
-	# 2. Trigger the transition
-	# Pass 'true' to tell it: "Please unpause the game once the screen is covered"
-	TransitionLayer.change_scene("res://scenes/ui/main_menu.tscn", true)
-	
-	# NOTE: We DO NOT call get_tree().paused = false here!
-	# The TransitionLayer will do it at the perfect moment.
-
-func set_stats(percentage: int):
-	# Update the label
-	if has_node("Control/VBoxContainer/ProgressLabel"):
-		$Control/VBoxContainer/ProgressLabel.text = "Progress: %d%%" % percentage
-	
-	# Update the bar
-	if has_node("Control/VBoxContainer/ProgressBar"):
-		$Control/VBoxContainer/ProgressBar.value = percentage
-	
-	# Update attempts (optional)
-	if has_node("Control/VBoxContainer/AttemptsLabel") and GameManager:
-		$Control/VBoxContainer/AttemptsLabel.text = "Total Attempts: %d" % GameManager.attempts
+	# Trigger transition. 
+	# Passing 'true' ensures the TransitionLayer unpauses the tree after the fade-out.
+	TransitionLayer.change_scene(MAIN_MENU_PATH, true)

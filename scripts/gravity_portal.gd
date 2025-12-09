@@ -1,15 +1,20 @@
 extends Area2D
 
-# CHECKED = Gravity UP (Inverted)
-# UNCHECKED = Gravity DOWN (Normal)
+## A trigger zone that flips the player's gravity direction.
+
+# -- CONFIGURATION --
+
+## If true, sets gravity upwards (inverted).
+## If false, sets gravity downwards (normal).
 @export var is_inverted: bool = true
 
-func _ready():
-	# Connect the signal if not already connected in the editor
-	if not body_entered.is_connected(_on_body_entered):
-		body_entered.connect(_on_body_entered)
+# -- LIFECYCLE --
 
-func _on_body_entered(body):
+func _ready():
+	body_entered.connect(_on_body_entered)
+
+func _on_body_entered(body: Node2D):
 	if body.has_method("change_gravity"):
-		# Call deferred to ensure physics loop finishes this frame before flipping
+		# Use call_deferred to safely modify physics state (gravity) 
+		# after the current physics step completes.
 		body.call_deferred("change_gravity", is_inverted)

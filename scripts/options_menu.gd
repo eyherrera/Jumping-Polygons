@@ -1,27 +1,44 @@
 extends CanvasLayer
 
-@onready var music_slider = $Control/VBoxContainer/MusicSlider
-@onready var sfx_slider = $Control/VBoxContainer/SFXSlider
-@onready var back_btn = $Control/VBoxContainer/BackBtn
+## Manages game settings, specifically Music and SFX volume control.
+
+# -- UI REFERENCES --
+@onready var music_slider: Slider = $Control/VBoxContainer/MusicSlider
+@onready var sfx_slider: Slider = $Control/VBoxContainer/SFXSlider
+@onready var back_btn: Button = $Control/VBoxContainer/BackBtn
+
+# -- LIFECYCLE --
 
 func _ready():
+	# UI Connections
 	back_btn.pressed.connect(_on_back_pressed)
 	music_slider.value_changed.connect(_on_music_volume_changed)
 	sfx_slider.value_changed.connect(_on_sfx_volume_changed)
 	
-	# Load current values from AudioServer so sliders match reality
+	# Sync UI with current AudioServer state
+	_initialize_sliders()
+	
+	# Add hover/click sounds
+	AudioManager.register_buttons(self)
+
+# -- PRIVATE METHODS --
+
+func _initialize_sliders():
+	# Get bus indices
 	var music_idx = AudioServer.get_bus_index("Music")
 	var sfx_idx = AudioServer.get_bus_index("SFX")
 	
-	# Convert dB back to Linear (0-1) for the slider
+	# Convert current dB volume back to Linear (0.0 to 1.0) for the slider display.
 	music_slider.value = db_to_linear(AudioServer.get_bus_volume_db(music_idx))
 	sfx_slider.value = db_to_linear(AudioServer.get_bus_volume_db(sfx_idx))
-	AudioManager.register_buttons(self)
+
+# -- SIGNAL CALLBACKS --
 
 func _on_music_volume_changed(value: float):
 	var bus_idx = AudioServer.get_bus_index("Music")
-	# Convert Linear (0-1) to dB
-	# If value is 0, linear_to_db returns -infinity (Mute), which is perfect.
+	
+	# Convert Linear slider value (0-1) to Decibels (dB).
+	# Note: linear_to_db(0) correctly returns -inf (Mute).
 	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(value))
 
 func _on_sfx_volume_changed(value: float):
@@ -29,5 +46,7 @@ func _on_sfx_volume_changed(value: float):
 	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(value))
 
 func _on_back_pressed():
+	# Use the transition layer to smoothly exit the menu.
 	TransitionLayer.perform_transition(func():
-		queue_free()) # The transition hides the screen, we delete this menu, then it reveals the Main Menu
+		queue_free()
+	)
