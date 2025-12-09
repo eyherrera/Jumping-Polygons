@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bm5pr86kew125"]
+[gd_scene load_steps=5 format=3 uid="uid://bm5pr86kew125"]
 
-[ext_resource type="Script" uid="uid://bet2t5er7a82q" path="res://scripts/main_menu.gd" id="1_sl1te"]
+[ext_resource type="Script" uid="uid://bet2t5er7a82q" path="res://scripts/main_menu.gd" id="1_m1kxf"]
+[ext_resource type="Texture2D" uid="uid://76t1fwehp4t8" path="res://assets/environments/images/background.png" id="2_x2yvf"]
+[ext_resource type="FontFile" uid="uid://e1y77faku3c2" path="res://assets/fonts/BitcountPropSingle-VariableFont_CRSV,ELSH,ELXP,slnt,wght.ttf" id="3_uhagc"]
+[ext_resource type="Theme" uid="uid://dhqa154yxyx86" path="res://resources/main_theme.tres" id="4_btxxm"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -9,7 +12,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_sl1te")
+script = ExtResource("1_m1kxf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.2088, 0.58, 0.27685335, 1)
+position = Vector2(578, 304)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_x2yvf")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -18,7 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.18359044, 0.18359044, 0.18359044, 1)
+color = Color(0, 0.22, 0, 0.76862746)
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -29,6 +38,7 @@ offset_left = -69.0
 offset_right = 69.0
 offset_bottom = 23.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_uhagc")
 theme_override_font_sizes/font_size = 80
 text = "Jumping Polygons"
 
@@ -45,19 +55,32 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
 
 [node name="Level1Btn" type="Button" parent="LevelContainer"]
+custom_minimum_size = Vector2(250, 150)
 layout_mode = 2
+theme = ExtResource("4_btxxm")
+theme_override_fonts/font = ExtResource("3_uhagc")
+theme_override_font_sizes/font_size = 40
 text = "Level 1
 Spacebrain"
 
 [node name="Level2Btn" type="Button" parent="LevelContainer"]
+custom_minimum_size = Vector2(250, 150)
 layout_mode = 2
+theme = ExtResource("4_btxxm")
+theme_override_fonts/font = ExtResource("3_uhagc")
+theme_override_font_sizes/font_size = 40
 text = "Level 2
 Bit by Bit"
 
 [node name="Level3Btn" type="Button" parent="LevelContainer"]
+custom_minimum_size = Vector2(250, 150)
 layout_mode = 2
+theme = ExtResource("4_btxxm")
+theme_override_fonts/font = ExtResource("3_uhagc")
+theme_override_font_sizes/font_size = 40
 text = "Level 3
 Epilogue"
 

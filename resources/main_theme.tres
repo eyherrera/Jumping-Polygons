@@ -1,0 +1,40 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://dhqa154yxyx86"]
+
+[ext_resource type="FontFile" uid="uid://e1y77faku3c2" path="res://assets/fonts/BitcountPropSingle-VariableFont_CRSV,ELSH,ELXP,slnt,wght.ttf" id="1_ols5k"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ols5k"]
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.75, 1, 0, 1)
+shadow_color = Color(0.5333333, 1, 0, 0.16470589)
+shadow_size = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_biaja"]
+bg_color = Color(1, 1, 1, 0)
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.9666667, 1, 0, 1)
+shadow_color = Color(1.019546, 1.353256, 0, 0.18039216)
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vnc4k"]
+draw_center = false
+border_width_left = 7
+border_width_top = 7
+border_width_right = 7
+border_width_bottom = 7
+border_color = Color(0, 1, 0.2833333, 1)
+shadow_color = Color(0, 1, 0.2833333, 0.23529412)
+shadow_size = 20
+
+[resource]
+default_font = ExtResource("1_ols5k")
+Button/styles/hover = SubResource("StyleBoxFlat_ols5k")
+Button/styles/normal = SubResource("StyleBoxFlat_biaja")
+Button/styles/pressed = SubResource("StyleBoxFlat_vnc4k")
