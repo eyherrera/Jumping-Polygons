@@ -19,6 +19,7 @@ func _ready():
 	
 	if has_node("LevelContainer/OptionsBtn"): # Adjust path to where you put it
 		$LevelContainer/OptionsBtn.pressed.connect(_on_options_btn_pressed)
+	AudioManager.register_buttons(self)
 
 func _on_level_1_pressed():
 	TransitionLayer.change_scene(LEVEL_1_PATH)

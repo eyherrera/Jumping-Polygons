@@ -16,6 +16,7 @@ func _ready():
 	# Convert dB back to Linear (0-1) for the slider
 	music_slider.value = db_to_linear(AudioServer.get_bus_volume_db(music_idx))
 	sfx_slider.value = db_to_linear(AudioServer.get_bus_volume_db(sfx_idx))
+	AudioManager.register_buttons(self)
 
 func _on_music_volume_changed(value: float):
 	var bus_idx = AudioServer.get_bus_index("Music")

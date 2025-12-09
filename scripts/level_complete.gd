@@ -9,6 +9,7 @@ func _ready():
 	
 	$Control/VBoxContainer/RetryBtn.pressed.connect(_on_retry_pressed)
 	$Control/VBoxContainer/MenuBtn.pressed.connect(_on_menu_pressed)
+	AudioManager.register_buttons(self)
 
 func _on_retry_pressed():
 	if GameManager:

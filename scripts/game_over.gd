@@ -14,6 +14,7 @@ func set_stats(percentage: int):
 func _ready():
 	$Control/VBoxContainer/HBoxContainer/RetryBtn.pressed.connect(_on_retry)
 	$Control/VBoxContainer/HBoxContainer/MenuBtn.pressed.connect(_on_menu)
+	AudioManager.register_buttons(self)
 
 func _on_retry():
 	# 1. Remove this UI so it doesn't block the transition

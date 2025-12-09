@@ -122,5 +122,6 @@ text = "     Options     "
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="OptionsBtn"]
 stream = ExtResource("5_x2yvf")
 autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="OptionsBtn" to="." method="_on_options_btn_pressed"]

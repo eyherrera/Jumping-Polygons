@@ -12,10 +12,8 @@ func _ready():
 	# "Menu" button -> QUIT to Menu
 	if has_node("Control/VBoxContainer/HBoxContainer/MenuBtn"):
 		$Control/VBoxContainer/HBoxContainer/MenuBtn.pressed.connect(_on_menu_pressed)
-
-	# Optional: Update Title
-	if has_node("Control/VBoxContainer/Label"):
-		$Control/VBoxContainer/Label.text = "Paused"
+	
+	AudioManager.register_buttons(self)
 
 func _on_resume_pressed():
 	# 1. Unpause the Tree
