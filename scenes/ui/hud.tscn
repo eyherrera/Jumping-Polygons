@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfwkwdgvk5asw"]
+
+[ext_resource type="Theme" uid="uid://dhqa154yxyx86" path="res://resources/main_theme.tres" id="1_0mwgc"]
+[ext_resource type="Script" uid="uid://qtqc1j1p773m" path="res://scripts/hud.gd" id="1_hqnrr"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hqnrr")
+
+[node name="Control" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 30.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="AttemptLabel" type="Label" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_0mwgc")
+text = "Attempt:"
+
+[node name="ProgressBar" type="ProgressBar" parent="Control"]
+custom_minimum_size = Vector2(500, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_0mwgc")
+
+[node name="PauseBtn" type="Button" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("1_0mwgc")
+text = "PAUSE"

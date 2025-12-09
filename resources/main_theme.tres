@@ -13,6 +13,10 @@ shadow_color = Color(0.5333333, 1, 0, 0.16470589)
 shadow_size = 30
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_biaja"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
 bg_color = Color(1, 1, 1, 0)
 draw_center = false
 border_width_left = 5

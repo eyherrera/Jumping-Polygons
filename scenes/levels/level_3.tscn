@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://c775tfdoe8bal"]
+[gd_scene load_steps=14 format=4 uid="uid://c775tfdoe8bal"]
 
 [ext_resource type="Script" uid="uid://x7g07n1g5k6i" path="res://scripts/level_manager.gd" id="1_n6eey"]
 [ext_resource type="PackedScene" uid="uid://i4tvhkaf1oik" path="res://scenes/characters/player.tscn" id="2_qi5uv"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dom64gigjfaks" path="res://scenes/objects/orb.tscn" id="10_1nwmf"]
 [ext_resource type="PackedScene" uid="uid://wfo4ra0uhfey" path="res://scenes/objects/gravity_portal.tscn" id="11_n6eey"]
 [ext_resource type="PackedScene" uid="uid://dl3nco57s8jvr" path="res://scenes/objects/gamemode_portal.tscn" id="12_qi5uv"]
+[ext_resource type="PackedScene" uid="uid://cfwkwdgvk5asw" path="res://scenes/ui/hud.tscn" id="13_f6egh"]
 
 [node name="Level1" type="Node2D" node_paths=PackedStringArray("camera")]
 script = ExtResource("1_n6eey")
@@ -109,3 +110,5 @@ is_inverted = false
 
 [node name="GamemodePortal" parent="." instance=ExtResource("12_qi5uv")]
 position = Vector2(10632, 168)
+
+[node name="HUD" parent="." instance=ExtResource("13_f6egh")]
