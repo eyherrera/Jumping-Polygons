@@ -150,6 +150,11 @@ func _on_hazard_entered(_body):
 	die()
 
 func die():
+	
+	var hud = get_tree().get_first_node_in_group("HUD")
+	if hud:
+		hud.visible = false
+	
 	print("Dead!")
 	if GameManager:
 		GameManager.add_attempt()

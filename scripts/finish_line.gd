@@ -13,6 +13,10 @@ func _on_body_entered(body):
 func win_level():
 	print("Level Complete!")
 	
+	var hud = get_tree().get_first_node_in_group("HUD")
+	if hud:
+		hud.visible = false
+	
 	if level_complete_scene:
 		# 1. Instantiate the UI
 		var victory_screen = level_complete_scene.instantiate()

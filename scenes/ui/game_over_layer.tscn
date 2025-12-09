@@ -67,12 +67,14 @@ layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="RetryBtn" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme = ExtResource("2_rx32e")
 theme_override_font_sizes/font_size = 30
 text = "Retry"
 
 [node name="MenuBtn" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme = ExtResource("2_rx32e")
 theme_override_font_sizes/font_size = 30

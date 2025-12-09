@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var progress_bar = $Control/ProgressBar
 @onready var attempt_label = $Control/AttemptLabel
 @onready var pause_btn = $Control/PauseBtn
+@export var pause_menu_scene: PackedScene
 
 # We need references to calculate progress
 var player: Node2D
@@ -46,10 +47,13 @@ func _process(_delta):
 			progress_bar.value = percent
 
 func _on_pause_pressed():
-	# Pause the game
+	# 1. Pause Game
 	get_tree().paused = true
 	
-	# OPTIONAL: Spawn a Pause Menu scene here if you have one
-	# For now, we assume you might just want to stop the game or show a simple menu.
-	# If you want a full menu, we can create a separate "PauseMenu.tscn".
-	print("Game Paused")
+	# 2. Hide HUD
+	visible = false 
+	
+	# 3. Spawn Pause Menu
+	if pause_menu_scene:
+		var pause_menu = pause_menu_scene.instantiate()
+		get_tree().root.add_child(pause_menu)
