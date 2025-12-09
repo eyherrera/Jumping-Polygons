@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://gmjpjv1n2vjt"]
 
-[ext_resource type="Script" uid="uid://dflyssmhfs6x3" path="res://scripts/options_menu.gd" id="1_ta2k2"]
+[ext_resource type="Script" uid="uid://dflyssmhfs6x3" path="res://scripts/ui/options_menu.gd" id="1_ta2k2"]
 [ext_resource type="Theme" uid="uid://dhqa154yxyx86" path="res://resources/main_theme.tres" id="2_wj2x4"]
 
 [node name="OptionsMenu" type="CanvasLayer"]
@@ -88,12 +88,14 @@ offset_right = 305.0
 offset_bottom = -16.0
 grow_vertical = 0
 theme = ExtResource("2_wj2x4")
-theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/normal_font_size = 14
 text = "Developed By Edgar Herrera for class
 Music:
 - Spacebrain by Caro
 - BitByBit by 8-BiTek
 - Epilogue by Creo
+SFX:
+- freesound_community
 Assets:
 - TotusLotus (tiles)
 - Omniclause (spikes)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bm5pr86kew125"]
+[gd_scene load_steps=6 format=3 uid="uid://bm5pr86kew125"]
 
-[ext_resource type="Script" uid="uid://bet2t5er7a82q" path="res://scripts/main_menu.gd" id="1_m1kxf"]
+[ext_resource type="Script" uid="uid://bet2t5er7a82q" path="res://scripts/ui/main_menu.gd" id="1_m1kxf"]
 [ext_resource type="Texture2D" uid="uid://76t1fwehp4t8" path="res://assets/environments/images/background.png" id="2_x2yvf"]
 [ext_resource type="FontFile" uid="uid://e1y77faku3c2" path="res://assets/fonts/BitcountPropSingle-VariableFont_CRSV,ELSH,ELXP,slnt,wght.ttf" id="3_uhagc"]
 [ext_resource type="Theme" uid="uid://dhqa154yxyx86" path="res://resources/main_theme.tres" id="4_btxxm"]
+[ext_resource type="AudioStream" uid="uid://luvvcwsg18of" path="res://assets/audio/menu_music.mp3" id="5_x2yvf"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -117,5 +118,10 @@ grow_vertical = 0
 theme = ExtResource("4_btxxm")
 theme_override_font_sizes/font_size = 30
 text = "     Options     "
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="OptionsBtn"]
+stream = ExtResource("5_x2yvf")
+autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="OptionsBtn" to="." method="_on_options_btn_pressed"]

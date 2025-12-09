@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cy2d0q0dw2ey8"]
 
-[ext_resource type="Script" uid="uid://cg423c7rna2bl" path="res://scripts/level_complete.gd" id="1_aq2sf"]
+[ext_resource type="Script" uid="uid://cg423c7rna2bl" path="res://scripts/ui/level_complete.gd" id="1_aq2sf"]
 [ext_resource type="Theme" uid="uid://dhqa154yxyx86" path="res://resources/main_theme.tres" id="2_j5qh7"]
 
 [node name="LevelCompleteLayer" type="CanvasLayer"]
