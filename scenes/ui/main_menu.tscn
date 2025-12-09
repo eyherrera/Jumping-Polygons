@@ -59,7 +59,7 @@ Bit by Bit"
 [node name="Level3Btn" type="Button" parent="LevelContainer"]
 layout_mode = 2
 text = "Level 3
-Fun time with Gosths"
+Epilogue"
 
 [node name="QuitBtn" type="Button" parent="."]
 layout_mode = 1
