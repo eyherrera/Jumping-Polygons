@@ -1,6 +1,8 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://dhqa154yxyx86"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://dhqa154yxyx86"]
 
 [ext_resource type="FontFile" uid="uid://e1y77faku3c2" path="res://assets/fonts/BitcountPropSingle-VariableFont_CRSV,ELSH,ELXP,slnt,wght.ttf" id="1_ols5k"]
+[ext_resource type="Texture2D" uid="uid://dhh5ckeuv8n3o" path="res://assets/sprites/grabber.png" id="1_vnc4k"]
+[ext_resource type="Texture2D" uid="uid://d0qu1w553hpsd" path="res://assets/sprites/grabber_highlight.png" id="2_x127s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ols5k"]
 draw_center = false
@@ -37,6 +39,31 @@ border_color = Color(0, 1, 0.2833333, 1)
 shadow_color = Color(0, 1, 0.2833333, 0.23529412)
 shadow_size = 20
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u427p"]
+bg_color = Color(1, 0.98333335, 0, 1)
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7rtxy"]
+bg_color = Color(1, 0.98333335, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hofdy"]
+bg_color = Color(0, 1, 0.26666665, 1)
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0.98333335, 0, 1)
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_color = Color(1, 0.98333335, 0, 0.17254902)
+shadow_size = 10
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x127s"]
 draw_center = false
 border_width_left = 5
@@ -55,5 +82,10 @@ default_font = ExtResource("1_ols5k")
 Button/styles/hover = SubResource("StyleBoxFlat_ols5k")
 Button/styles/normal = SubResource("StyleBoxFlat_biaja")
 Button/styles/pressed = SubResource("StyleBoxFlat_vnc4k")
+HSlider/icons/grabber = ExtResource("1_vnc4k")
+HSlider/icons/grabber_highlight = ExtResource("2_x127s")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_u427p")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_7rtxy")
+HSlider/styles/slider = SubResource("StyleBoxFlat_hofdy")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_x127s")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_qjhx0")

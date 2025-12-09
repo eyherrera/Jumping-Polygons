@@ -46,6 +46,7 @@ position = Vector2(0, 232)
 process_mode = 3
 stream = ExtResource("7_2bnyt")
 autoplay = true
+bus = &"Music"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, 232)

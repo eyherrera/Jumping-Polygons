@@ -1,0 +1,102 @@
+[gd_scene load_steps=3 format=3 uid="uid://gmjpjv1n2vjt"]
+
+[ext_resource type="Script" uid="uid://dflyssmhfs6x3" path="res://scripts/options_menu.gd" id="1_ta2k2"]
+[ext_resource type="Theme" uid="uid://dhqa154yxyx86" path="res://resources/main_theme.tres" id="2_wj2x4"]
+
+[node name="OptionsMenu" type="CanvasLayer"]
+script = ExtResource("1_ta2k2")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.77254903)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -210.0
+offset_right = 144.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_wj2x4")
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_wj2x4")
+theme_override_font_sizes/font_size = 80
+text = "Options"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_wj2x4")
+theme_override_font_sizes/font_size = 40
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_wj2x4")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="Label3" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_wj2x4")
+theme_override_font_sizes/font_size = 40
+text = "SFX"
+
+[node name="SFXSlider" type="HSlider" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_wj2x4")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="BackBtn" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_wj2x4")
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
+[node name="CreditsText" type="RichTextLabel" parent="Control"]
+custom_minimum_size = Vector2(200, 0.37)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 17.0
+offset_top = -133.0
+offset_right = 305.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme = ExtResource("2_wj2x4")
+theme_override_font_sizes/normal_font_size = 10
+text = "Developed By Edgar Herrera for class
+Music:
+- Spacebrain by Caro
+- BitByBit by 8-BiTek
+- Epilogue by Creo
+Assets:
+- TotusLotus (tiles)
+- Omniclause (spikes)
+- Trixie (background)
+"
+fit_content = true

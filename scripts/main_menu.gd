@@ -5,6 +5,8 @@ extends Control
 const LEVEL_1_PATH = "res://scenes/levels/level_1.tscn" 
 const LEVEL_2_PATH = "res://scenes/levels/level_2.tscn" 
 const LEVEL_3_PATH = "res://scenes/levels/level_3.tscn"
+const OPTIONS_MENU_PATH = "res://scenes/ui/options_menu.tscn"
+const OPTIONS_MENU_SCENE = preload("res://scenes/ui/options_menu.tscn")
 
 func _ready():
 	# Connect signals via code to keep things clean
@@ -12,6 +14,9 @@ func _ready():
 	$LevelContainer/Level2Btn.pressed.connect(_on_level_2_pressed)
 	$LevelContainer/Level3Btn.pressed.connect(_on_level_3_pressed)
 	$QuitBtn.pressed.connect(_on_quit_pressed)
+	
+	if has_node("LevelContainer/OptionsBtn"): # Adjust path to where you put it
+		$LevelContainer/OptionsBtn.pressed.connect(_on_options_btn_pressed)
 
 func _on_level_1_pressed():
 	get_tree().change_scene_to_file(LEVEL_1_PATH)
@@ -26,3 +31,8 @@ func _on_level_3_pressed():
 
 func _on_quit_pressed():
 	get_tree().quit()
+
+func _on_options_btn_pressed():
+	var options = OPTIONS_MENU_SCENE.instantiate()
+	add_child(options) # Add it AS A CHILD of the menu, instead of changing scenes
+	
