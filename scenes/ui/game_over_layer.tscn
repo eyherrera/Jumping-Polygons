@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://byvfvds10ls0a"]
+[gd_scene load_steps=3 format=3 uid="uid://byvfvds10ls0a"]
 
 [ext_resource type="Script" uid="uid://b4a0wvpgen0g7" path="res://scenes/ui/game_over.gd" id="1_ql60w"]
+[ext_resource type="Theme" uid="uid://dhqa154yxyx86" path="res://resources/main_theme.tres" id="2_rx32e"]
 
 [node name="GameOverLayer" type="CanvasLayer"]
 process_mode = 2
@@ -21,7 +22,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.78431374)
+color = Color(0, 0, 0, 0.47058824)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 1
@@ -39,20 +40,24 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="Control/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_rx32e")
 theme_override_font_sizes/font_size = 70
 text = "Game Over!"
 
 [node name="ProgressLabel" type="Label" parent="Control/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_rx32e")
 theme_override_font_sizes/font_size = 30
 text = "Progress 0%"
 horizontal_alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="Control/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_rx32e")
 
 [node name="AttemptsLabel" type="Label" parent="Control/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_rx32e")
 theme_override_font_sizes/font_size = 30
 text = "Total Attempts: 0"
 horizontal_alignment = 1
@@ -63,10 +68,12 @@ size_flags_horizontal = 4
 
 [node name="RetryBtn" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_rx32e")
 theme_override_font_sizes/font_size = 30
 text = "Retry"
 
 [node name="MenuBtn" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_rx32e")
 theme_override_font_sizes/font_size = 30
 text = "Menu"
