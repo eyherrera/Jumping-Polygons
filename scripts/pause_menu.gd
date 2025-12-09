@@ -18,15 +18,27 @@ func _ready():
 		$Control/VBoxContainer/Label.text = "Paused"
 
 func _on_resume_pressed():
-	# 1. Unpause
+	# 1. Unpause the Tree
 	get_tree().paused = false
 	
-	# 2. Show HUD again
+	# 2. Manually Resume the Music
+	# We search the current scene for the player to find the music sibling
+	# (Since PauseMenu is in 'root', we can't use get_parent())
+	var current_scene = get_tree().current_scene
+	var music = current_scene.get_node_or_null("AudioStreamPlayer")
+	if music:
+		music.stream_paused = false
+	
+	# 3. Show HUD again
 	var hud = get_tree().get_first_node_in_group("HUD")
 	if hud:
 		hud.visible = true
+	else:
+		# Fallback: If group fails, look for it in the scene directly
+		hud = current_scene.get_node_or_null("HUD")
+		if hud: hud.visible = true
 		
-	# 3. Remove Pause Screen
+	# 4. Remove Pause Screen
 	queue_free()
 
 func _on_menu_pressed():

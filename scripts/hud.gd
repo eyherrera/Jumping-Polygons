@@ -47,13 +47,19 @@ func _process(_delta):
 			progress_bar.value = percent
 
 func _on_pause_pressed():
-	# 1. Pause Game
+	# 1. Pause the Tree
 	get_tree().paused = true
 	
-	# 2. Hide HUD
+	# 2. Manually Pause the Music
+	# We find the AudioStreamPlayer in the level (parent of HUD)
+	var music = get_parent().get_node_or_null("AudioStreamPlayer")
+	if music:
+		music.stream_paused = true
+	
+	# 3. Hide HUD
 	visible = false 
 	
-	# 3. Spawn Pause Menu
+	# 4. Spawn Pause Menu
 	if pause_menu_scene:
 		var pause_menu = pause_menu_scene.instantiate()
 		get_tree().root.add_child(pause_menu)

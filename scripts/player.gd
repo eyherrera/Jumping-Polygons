@@ -109,11 +109,18 @@ func _physics_process(delta):
 				is_grounded = true
 
 	# 3. Jump Logic
-	if Input.is_action_just_pressed("jump") and current_orb:
+	
+	# Check if mouse is over a button (UI)
+	var is_hovering_ui = get_viewport().gui_get_hovered_control() != null
+	
+	# PRIORITY 1: ORB JUMP
+	# Add "and not is_hovering_ui" to the condition
+	if Input.is_action_just_pressed("jump") and current_orb and not is_hovering_ui:
 		attempt_orb_jump()
 		
-	elif Input.is_action_pressed("jump") and is_grounded:
-		# Jump force must act against gravity
+	# PRIORITY 2: FLOOR JUMP
+	# Add "and not is_hovering_ui" to the condition
+	elif Input.is_action_pressed("jump") and is_grounded and not is_hovering_ui:
 		velocity.y = jump_force * gravity_direction
 		is_grounded = false
 		jump_button_released = false

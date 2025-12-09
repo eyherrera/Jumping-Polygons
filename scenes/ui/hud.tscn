@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://qtqc1j1p773m" path="res://scripts/hud.gd" id="1_hqnrr"]
 [ext_resource type="PackedScene" uid="uid://x7j65hsepqun" path="res://scenes/ui/pause_menu.tscn" id="2_bo48s"]
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="CanvasLayer" groups=["HUD"]]
 script = ExtResource("1_hqnrr")
 pause_menu_scene = ExtResource("2_bo48s")
 
@@ -13,6 +13,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 30.0
 grow_horizontal = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
