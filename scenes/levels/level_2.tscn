@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dkqldg8i2muaq"]
+[gd_scene load_steps=13 format=4 uid="uid://dkqldg8i2muaq"]
 
 [ext_resource type="Script" uid="uid://x7g07n1g5k6i" path="res://scripts/level_manager.gd" id="1_qsp8v"]
 [ext_resource type="PackedScene" uid="uid://i4tvhkaf1oik" path="res://scenes/characters/player.tscn" id="2_nt80m"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://f11hggrbjbjt" path="res://scenes/objects/finish_line.tscn" id="9_gw1l3"]
 [ext_resource type="PackedScene" uid="uid://cy2d0q0dw2ey8" path="res://scenes/ui/level_complete.tscn" id="10_p4se4"]
 [ext_resource type="PackedScene" uid="uid://dom64gigjfaks" path="res://scenes/objects/orb.tscn" id="10_qsp8v"]
+[ext_resource type="PackedScene" uid="uid://cfwkwdgvk5asw" path="res://scenes/ui/hud.tscn" id="12_brxtv"]
 
 [node name="Level1" type="Node2D" node_paths=PackedStringArray("camera")]
 script = ExtResource("1_qsp8v")
@@ -45,6 +46,7 @@ position = Vector2(0, 232)
 process_mode = 3
 stream = ExtResource("7_3p04p")
 autoplay = true
+bus = &"Music"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, 232)
@@ -134,3 +136,5 @@ position = Vector2(13080, 200)
 
 [node name="Orb22" parent="." instance=ExtResource("10_qsp8v")]
 position = Vector2(13144, 184)
+
+[node name="HUD" parent="." instance=ExtResource("12_brxtv")]

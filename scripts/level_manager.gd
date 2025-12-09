@@ -4,7 +4,6 @@ extends Node2D
 @export var cube_scene: PackedScene
 @export var ship_scene: PackedScene
 @export var camera: Camera2D 
-@export var attempt_label: Label
 
 # -- SETTINGS --
 @export var smoothing_speed: float = 5.0
@@ -13,10 +12,6 @@ extends Node2D
 var current_player: Node2D
 
 func _ready():
-	# 1. Update the Attempt Counter UI
-	if attempt_label:
-		# Use the global GameManager to get the current count
-		attempt_label.text = "Attempt %d" % GameManager.attempts
 	
 	# 2. Find the starting player in the scene
 	current_player = $Player
