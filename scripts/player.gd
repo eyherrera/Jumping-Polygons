@@ -15,33 +15,46 @@ extends CharacterBody2D
 @onready var spike_detector = $SpikeDetector
 
 var is_grounded = false
+var current_orb = null 
+var jump_button_released = true # Tracks if we've let go of the button
 
 func _ready():
-	# 1. HazardDetector (Walls Only)
-	# Mask 1 = World. We REMOVE Layer 3 (Spikes) from this detector.
 	if hazard_detector:
 		hazard_detector.collision_mask = 1 
-		# Ensure signal is connected (if not done in editor)
 		if not hazard_detector.body_entered.is_connected(_on_hazard_entered):
 			hazard_detector.body_entered.connect(_on_hazard_entered)
 
-	# 2. SpikeDetector (Spikes Only)
-	# Mask 4 = Layer 3 (Deadly).
 	if spike_detector:
 		spike_detector.collision_mask = 4
 		spike_detector.body_entered.connect(_on_hazard_entered)
-	else:
-		printerr("Player missing 'SpikeDetector' child node!")
 
-	# 3. RayCast Exceptions
 	ray_left.add_exception(self)
 	ray_right.add_exception(self)
 
+# -- ORB CONNECTION --
+func register_orb(orb_node):
+	current_orb = orb_node
+	# BUFFER CHECK:
+	# If we enter an orb and are ALREADY holding the button, 
+	# AND we had released it previously (so it's a fresh press), jump immediately.
+	if Input.is_action_pressed("jump") and jump_button_released:
+		attempt_orb_jump()
+
+func unregister_orb(orb_node):
+	if current_orb == orb_node:
+		current_orb = null
+
 func _physics_process(delta):
-	# 1. Apply Gravity
+	# 1. Track Input State
+	# We only allow buffering if the player has physically released the key 
+	# at least once since their last action.
+	if Input.is_action_just_released("jump"):
+		jump_button_released = true
+	
+	# 2. Apply Gravity
 	velocity.y += gravity * delta
 	
-	# 2. Dynamic Floor Check (The "Makeshift" Logic)
+	# 3. Floor Detection (Dynamic Raycasts)
 	var current_fall_speed = velocity.y
 	var distance_to_fall = current_fall_speed * delta
 	var ray_length = max(10.0, distance_to_fall + 5.0)
@@ -55,7 +68,6 @@ func _physics_process(delta):
 	
 	if velocity.y > 0:
 		var collision_point = null
-		
 		if ray_left.is_colliding():
 			collision_point = ray_left.get_collision_point()
 		elif ray_right.is_colliding():
@@ -68,17 +80,34 @@ func _physics_process(delta):
 				velocity.y = 0
 				is_grounded = true
 
-	# 3. Handle Jump
-	if Input.is_action_pressed("jump") and is_grounded:
+	# 4. Jump Logic
+	# PRIORITY 1: ORB JUMP (Normal Click)
+	if Input.is_action_just_pressed("jump") and current_orb:
+		attempt_orb_jump()
+		
+	# PRIORITY 2: FLOOR JUMP (Hold to bunny-hop)
+	elif Input.is_action_pressed("jump") and is_grounded:
 		velocity.y = jump_force
 		is_grounded = false
+		jump_button_released = false # Key is being held, lock buffering
 
-	# 4. Move
+	# 5. Move
 	velocity.x = speed
 	move_and_slide() 
 
-	# 5. Rotation
+	# 6. Rotation
 	_handle_rotation(delta)
+
+# Helper function to handle the actual orb jump logic
+func attempt_orb_jump():
+	if current_orb:
+		velocity.y = current_orb.jump_force
+		current_orb.activate_visuals()
+		is_grounded = false
+		jump_button_released = false # We used the click, lock buffering
+		
+		if not current_orb.multi_use:
+			current_orb = null
 
 func _handle_rotation(delta):
 	if not is_grounded:
@@ -88,8 +117,6 @@ func _handle_rotation(delta):
 		var target_rotation = round(sprite.rotation / radian_step) * radian_step
 		sprite.rotation = lerp(sprite.rotation, target_rotation, snap_speed * delta)
 
-# -- DEATH LOGIC --
-# Both detectors connect here
 func _on_hazard_entered(_body):
 	die()
 
@@ -102,7 +129,6 @@ func die():
 	if music:
 		music.stop()
 
-	# Progress Calculation
 	var percent = 0
 	var finish_node = get_tree().get_first_node_in_group("FinishLine")
 	if finish_node:
@@ -111,7 +137,6 @@ func die():
 			percent = int((global_position.x / end_x) * 100)
 			percent = clamp(percent, 0, 99)
 	
-	# Show Game Over
 	if game_over_scene:
 		var go_screen = game_over_scene.instantiate()
 		get_tree().root.add_child(go_screen)
