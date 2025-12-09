@@ -16,11 +16,15 @@ func _ready():
 	$Control/VBoxContainer/HBoxContainer/MenuBtn.pressed.connect(_on_menu)
 
 func _on_retry():
-	get_tree().paused = false
+	# 1. Remove this UI so it doesn't block the transition
 	queue_free()
-	get_tree().reload_current_scene()
+	
+	# 2. Transition
+	# We pass 'true' to unpause AFTER the screen is black
+	var current_scene_path = get_tree().current_scene.scene_file_path
+	TransitionLayer.change_scene(current_scene_path, true)
 
 func _on_menu():
-	get_tree().paused = false
 	queue_free()
-	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
+	# Pass 'true' to unpause AFTER the screen is black
+	TransitionLayer.change_scene("res://scenes/ui/main_menu.tscn", true)

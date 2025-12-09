@@ -28,5 +28,5 @@ func _on_sfx_volume_changed(value: float):
 	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(value))
 
 func _on_back_pressed():
-	queue_free() # Just delete this window to reveal the Main Menu underneath
-	# DO NOT use change_scene_to_file here if you want an overlay!
+	TransitionLayer.perform_transition(func():
+		queue_free()) # The transition hides the screen, we delete this menu, then it reveals the Main Menu

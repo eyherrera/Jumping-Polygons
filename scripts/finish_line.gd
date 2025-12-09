@@ -13,19 +13,18 @@ func _on_body_entered(body):
 func win_level():
 	print("Level Complete!")
 	
+	# Hide HUD immediately
 	var hud = get_tree().get_first_node_in_group("HUD")
-	if hud:
-		hud.visible = false
+	if hud: hud.visible = false
+	
+	# Pause immediately so player stops moving
+	get_tree().paused = true 
 	
 	if level_complete_scene:
-		# 1. Instantiate the UI
-		var victory_screen = level_complete_scene.instantiate()
-		
-		# 2. Add it to the HUD or CanvasLayer (so it stays on screen)
-		# We add it to the 'root' so it covers everything independent of the camera
-		get_tree().root.add_child(victory_screen)
-		
-		# 3. Pause the game
-		get_tree().paused = true
+		# Use the Overlay Transition!
+		TransitionLayer.perform_transition(func():
+			var victory_screen = level_complete_scene.instantiate()
+			get_tree().root.add_child(victory_screen)
+		)
 	else:
 		printerr("Assign the LevelComplete.tscn in the FinishLine Inspector!")

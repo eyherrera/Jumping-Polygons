@@ -11,11 +11,12 @@ func _ready():
 	$Control/VBoxContainer/MenuBtn.pressed.connect(_on_menu_pressed)
 
 func _on_retry_pressed():
-	get_tree().paused = false 
-	queue_free() # Remove this UI instance immediately
-	get_tree().reload_current_scene()
+	queue_free()
+	# Reload current level, unpause when safe
+	var current_level = get_tree().current_scene.scene_file_path
+	TransitionLayer.change_scene(current_level, true)
 
 func _on_menu_pressed():
-	get_tree().paused = false 
-	queue_free() # Remove this UI instance immediately
-	get_tree().change_scene_to_file(MAIN_MENU_PATH)
+	queue_free()
+	# Go to menu, unpause when safe
+	TransitionLayer.change_scene(MAIN_MENU_PATH, true)

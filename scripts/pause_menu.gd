@@ -42,6 +42,12 @@ func _on_resume_pressed():
 	queue_free()
 
 func _on_menu_pressed():
-	get_tree().paused = false
+	# 1. Remove the Pause Menu UI immediately (so it doesn't block the transition)
 	queue_free()
-	get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
+	
+	# 2. Trigger the transition
+	# Pass 'true' to tell it: "Please unpause the game once the screen is covered"
+	TransitionLayer.change_scene("res://scenes/ui/main_menu.tscn", true)
+	
+	# NOTE: We DO NOT call get_tree().paused = false here!
+	# The TransitionLayer will do it at the perfect moment.

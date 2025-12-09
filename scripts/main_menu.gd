@@ -19,20 +19,22 @@ func _ready():
 		$LevelContainer/OptionsBtn.pressed.connect(_on_options_btn_pressed)
 
 func _on_level_1_pressed():
-	get_tree().change_scene_to_file(LEVEL_1_PATH)
+	TransitionLayer.change_scene(LEVEL_1_PATH)
 
 func _on_level_2_pressed():
 	print("Level 2 not implemented yet!")
-	get_tree().change_scene_to_file(LEVEL_2_PATH)
+	TransitionLayer.change_scene(LEVEL_2_PATH)
 
 func _on_level_3_pressed():
 	print("Level 3 not implemented yet!")
-	get_tree().change_scene_to_file(LEVEL_3_PATH)
+	TransitionLayer.change_scene(LEVEL_3_PATH)
 
 func _on_quit_pressed():
 	get_tree().quit()
 
 func _on_options_btn_pressed():
-	var options = OPTIONS_MENU_SCENE.instantiate()
-	add_child(options) # Add it AS A CHILD of the menu, instead of changing scenes
-	
+	# We pass a "lambda" function (the code block) to the transition manager
+	TransitionLayer.perform_transition(func():
+		var options = OPTIONS_MENU_SCENE.instantiate()
+		add_child(options)
+)
