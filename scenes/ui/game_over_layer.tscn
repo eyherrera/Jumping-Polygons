@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://byvfvds10ls0a"]
 
-[ext_resource type="Script" uid="uid://b4a0wvpgen0g7" path="res://scripts/game_over.gd" id="1_ql60w"]
+[ext_resource type="Script" uid="uid://b4a0wvpgen0g7" path="res://scripts/ui/game_over.gd" id="1_ql60w"]
 [ext_resource type="Theme" uid="uid://dhqa154yxyx86" path="res://resources/main_theme.tres" id="2_rx32e"]
 
 [node name="GameOverLayer" type="CanvasLayer"]

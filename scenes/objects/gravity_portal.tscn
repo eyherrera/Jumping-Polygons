@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://wfo4ra0uhfey"]
 
-[ext_resource type="Script" uid="uid://7mlaaa16c1dc" path="res://scripts/gravity_portal.gd" id="1_jyamu"]
+[ext_resource type="Script" uid="uid://7mlaaa16c1dc" path="res://scripts/objects/gravity_portal.gd" id="1_jyamu"]
 [ext_resource type="Texture2D" uid="uid://dh8boyaqd8cmj" path="res://assets/sprites/gravity_switch.png" id="2_28opp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nwppe"]
