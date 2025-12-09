@@ -9,6 +9,8 @@ const OPTIONS_MENU_PATH = "res://scenes/ui/options_menu.tscn"
 const OPTIONS_MENU_SCENE = preload("res://scenes/ui/options_menu.tscn")
 
 func _ready():
+	if GameManager:
+		GameManager.reset_attempts()
 	# Connect signals via code to keep things clean
 	$LevelContainer/Level1Btn.pressed.connect(_on_level_1_pressed)
 	$LevelContainer/Level2Btn.pressed.connect(_on_level_2_pressed)

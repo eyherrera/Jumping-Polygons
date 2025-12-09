@@ -11,6 +11,8 @@ func _ready():
 	$Control/VBoxContainer/MenuBtn.pressed.connect(_on_menu_pressed)
 
 func _on_retry_pressed():
+	if GameManager:
+		GameManager.reset_attempts()
 	queue_free()
 	# Reload current level, unpause when safe
 	var current_level = get_tree().current_scene.scene_file_path
